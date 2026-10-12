@@ -64,7 +64,7 @@ function draw(){
  ctx.fillStyle=wi===2?'#354a72':'#8bceb7';ctx.beginPath();ctx.moveTo(0,ground);for(let x=0;x<=W;x+=60)ctx.lineTo(x,ground-22-Math.sin(x/100)*19);ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.fill();
  L.plat.forEach(([x,y,w,h])=>{box(x,y,w,h,L.grass);box(x,y,w,6,wi===2?'#9bd5ad':'#a8e7a0');for(let k=8;k<w;k+=31)box(x+k,y+10,10,3,'#ffffff38')});
  if(wi!==2){for(let i=0;i<8;i++){let x=(i*143+40)%W;box(x,ground-15,3,12,'#39855c');box(x-4,ground-20,5,5,'#ffd76b');box(x+3,ground-23,5,5,'#ffad9a')}}
- let dx=L.door,dy=ground-68;box(dx-4,dy-4,48,72,'#253149');box(dx,dy,40,68,doorOpen?'#fff1b8':'#9a654e');box(dx+5,dy+5,30,58,doorOpen?'#fff9de':'#bb8965');box(dx+26,dy+35,5,5,'#253149');
+ let dx=L.door,dy=(wi===1?270:ground)-68;box(dx-4,dy-4,48,72,'#253149');box(dx,dy,40,68,doorOpen?'#fff1b8':'#9a654e');box(dx+5,dy+5,30,58,doorOpen?'#fff9de':'#bb8965');box(dx+26,dy+35,5,5,'#253149');
  if(doorOpen){ctx.fillStyle='#fff0b888';ctx.beginPath();ctx.ellipse(dx+20,dy+31,48+Math.sin(t/10)*3,63,0,0,Math.PI*2);ctx.fill();box(dx+5,dy+5,30,58,'#fff7d5')}
  ctx.fillStyle=wi===2?'white':'#253149';ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.fillText('EXIT',dx+20,dy-11);
  drawHero(p.x,p.y);
