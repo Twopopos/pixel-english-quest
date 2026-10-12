@@ -76,7 +76,8 @@ function update(dt){
  p.x=Math.max(0,Math.min(930,p.x+p.vx*dt));let old=p.y;p.vy+=.48*dt;p.y+=p.vy*dt;p.on=false;
  for(let [x,y,w,h] of L.plat){if(p.vy>=0&&old+p.h<=y+4&&p.y+p.h>=y&&p.x+p.w>x&&p.x<x+w){p.y=y-p.h;p.vy=0;p.on=true}}
  if(p.y>H+80){p.x=Math.max(20,p.x-75);p.y=220;p.vy=0}
- const near=Math.abs((p.x+p.w/2)-(L.door+20))<48&&Math.abs(p.y+p.h-ground)<95;
+ const doorGround=wi===1?270:ground;
+const near=Math.abs((p.x+p.w/2)-(L.door+20))<48&&Math.abs(p.y+p.h-doorGround)<95;
  if(near&&!doorOpen){doorOpen=true;hud();setTimeout(()=>{if(doorOpen)openWindow(true)},450)}
  t+=dt;
 }
