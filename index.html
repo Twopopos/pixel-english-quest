@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>English Quest · 英语闯关</title>
+<style>
+:root{--ink:#203047;--cream:#fff8e8;--blue:#7cc9e8;--coral:#ff886f;--yellow:#ffd76b;--green:#8ed6a5}
+*{box-sizing:border-box}body{margin:0;background:#f3ead7;color:var(--ink);font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif;min-height:100vh}
+button,input{font:inherit}button{cursor:pointer;border:2px solid var(--ink);border-radius:12px;padding:10px 15px;background:var(--yellow);color:var(--ink);font-weight:800;box-shadow:0 4px 0 var(--ink);transition:transform .12s,box-shadow .12s}button:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px clamp(14px,4vw,42px);border-bottom:3px solid var(--ink);background:var(--cream)}
+.brand{font-size:clamp(18px,3vw,26px);font-weight:1000;letter-spacing:.4px}.brand span{color:#e56c57}.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+.wrap{max-width:1180px;margin:auto;padding:22px clamp(12px,3vw,30px) 34px}
+.hero{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:14px}.eyebrow{font-size:12px;font-weight:1000;letter-spacing:2px;color:#e56c57}.hero h1{font-size:clamp(26px,4vw,42px);margin:4px 0}.hero p{margin:0;color:#536177;line-height:1.5}
+.pill{display:inline-flex;gap:8px;align-items:center;border:2px solid var(--ink);border-radius:999px;padding:8px 13px;background:#fff;font-weight:800}
+.game-shell{border:3px solid var(--ink);border-radius:20px;overflow:hidden;background:#bce9f7;box-shadow:0 8px 0 #203047;position:relative}
+.hud{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;background:var(--cream);border-bottom:3px solid var(--ink);flex-wrap:wrap}.hud strong{font-size:14px}.hud small{color:#657086;font-weight:700}
+canvas{display:block;width:100%;height:auto;aspect-ratio:16/7.1;image-rendering:pixelated;touch-action:none}
+.game-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--cream);padding:11px 14px;border-top:3px solid var(--ink)}.controls{font-size:13px;font-weight:800;color:#566276}.keys{display:inline-block;border:1.5px solid var(--ink);border-radius:5px;background:#fff;padding:2px 6px;margin:0 2px;box-shadow:0 2px 0 var(--ink)}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}.level-card{background:#fffdf6;border:2px solid var(--ink);border-radius:15px;padding:14px;box-shadow:0 4px 0 var(--ink)}.level-card h3{margin:0 0 5px}.level-card p{margin:0;color:#697387;font-size:13px;line-height:1.45}.level-card .num{font-size:12px;font-weight:1000;color:#e56c57;letter-spacing:1px}
+.overlay{position:fixed;inset:0;background:#17273cbb;display:none;align-items:center;justify-content:center;padding:16px;z-index:10}.overlay.show{display:flex}
+.window{width:min(900px,100%);max-height:92vh;overflow:auto;background:#fff8e8;border:4px solid var(--ink);border-radius:20px;box-shadow:0 10px 0 #101c2d;position:relative}
+.window-head{padding:14px 18px;background:#ffd76b;border-bottom:3px solid var(--ink);display:flex;justify-content:space-between;align-items:center;gap:12px}.window-head h2{margin:0;font-size:clamp(18px,3vw,25px)}.close{background:#ffb6a5;padding:7px 12px}
+.window-body{padding:clamp(14px,3vw,25px)}.window-note{line-height:1.55;color:#566276;margin-top:0}
+.upload-zone{border:2px dashed #7890a8;border-radius:14px;padding:16px;background:#fff;text-align:center;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap}.upload-zone input{max-width:100%}.pdf-status{font-size:13px;font-weight:800;color:#58657a;margin:10px 0}
+.pdf-frame{width:100%;height:min(62vh,620px);border:2px solid var(--ink);border-radius:10px;background:#e8edf2}.empty-pdf{border:2px dashed #bac5d1;border-radius:12px;padding:30px 12px;text-align:center;background:#fff;color:#67748a}
+.modal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.success{background:var(--green)}.secondary{background:#fff}
+.mobile-controls{display:none;justify-content:center;gap:12px;padding:12px;background:#fff8e8;border-top:2px solid var(--ink)}.mobile-controls button{width:52px;height:48px;font-size:18px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);padding:10px 16px;background:#203047;color:white;border-radius:10px;font-weight:800;display:none;z-index:20}
+@media(max-width:650px){.levels{grid-template-columns:1fr}.mobile-controls{display:flex}.controls{line-height:2}.topbar{align-items:flex-start}.top-actions button{padding:8px 10px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">🎒 ENGLISH <span>QUEST</span></div>
+  <div class="top-actions"><button class="secondary" id="helpBtn">HOW TO PLAY</button><button id="resetBtn">↻ Restart</button></div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <div><div class="eyebrow">A LITTLE ADVENTURE, A BIG PRESENTATION</div><h1>走进英语课堂的奇妙世界</h1><p>穿过平台、跳过空隙，抵达每一关的门。门后是一扇专属学习窗，可以放入你的课堂 PDF。</p></div>
+    <div class="pill">🗺️ <span id="progressText">第 1 / 3 关</span></div>
+  </section>
+  <section class="game-shell">
+    <div class="hud"><strong id="levelName">LEVEL 01 · SUNNY START</strong><small>门会在你靠近时自动开启 ↗</small><strong id="statusText">READY TO GO!</strong></div>
+    <canvas id="game" width="960" height="426" aria-label="横版闯关游戏"></canvas>
+    <div class="mobile-controls"><button data-key="left">◀</button><button data-key="jump">⬆</button><button data-key="right">▶</button></div>
+    <div class="game-foot"><div class="controls">移动 <span class="keys">A</span><span class="keys">D</span> / <span class="keys">←</span><span class="keys">→</span>　跳跃 <span class="keys">W</span>/<span class="keys">↑</span>/<span class="keys">Space</span></div><div class="controls">目标：抵达右侧的 🚪 门</div></div>
+  </section>
+  <section class="levels">
+    <article class="level-card"><div class="num">WORLD 01</div><h3>☀️ Sunny Start</h3><p>熟悉移动和跳跃。小步前进，稳稳抵达第一扇门。</p></article>
+    <article class="level-card"><div class="num">WORLD 02</div><h3>☁️ Cloud Bridge</h3><p>平台间距更大一点。看准落脚点，继续前进。</p></article>
+    <article class="level-card"><div class="num">WORLD 03</div><h3>🌙 Starry Campus</h3><p>最后一段校园旅程。到达终点，打开你的学习窗。</p></article>
+  </section>
+</main>
+<div class="overlay" id="windowOverlay" role="dialog" aria-modal="true" aria-label="学习窗">
+  <section class="window">
+    <div class="window-head"><h2 id="windowTitle">🪟 LEARNING WINDOW · 学习窗</h2><button class="close" id="closeWindow">✕ 关闭</button></div>
+    <div class="window-body">
+      <p class="window-note" id="windowDescription">欢迎来到学习窗！添加课堂展示 PDF 后，文件会保存在当前浏览器中。下次闯关到达门口时，会自动打开这扇窗。</p>
+      <div class="upload-zone"><label for="pdfInput"><strong>📎 添加 / 更换 PDF：</strong></label><input id="pdfInput" type="file" accept="application/pdf,.pdf"><button class="success" id="removePdf">移除已保存 PDF</button></div>
+      <div class="pdf-status" id="pdfStatus">尚未添加 PDF。选择文件即可保存。</div>
+      <div id="pdfViewer"><div class="empty-pdf">📄<br><strong>这里将展示你的 PDF</strong><br><small>选择上方的 PDF 文件开始</small></div></div>
+      <div class="modal-actions"><button class="secondary" id="backToGame">← 返回关卡</button><button id="changePdfBtn">选择 PDF</button></div>
+    </div>
+  </section>
+</div>
+<div class="overlay" id="helpOverlay" role="dialog" aria-modal="true" aria-label="游戏说明">
+ <section class="window" style="max-width:560px"><div class="window-head"><h2>🎮 HOW TO PLAY</h2><button class="close" id="closeHelp">✕</button></div><div class="window-body"><p><b>移动：</b>按 A / D 或 ← / →。</p><p><b>跳跃：</b>按 W、↑ 或空格键。</p><p><b>过关：</b>走到右侧门附近，门会自动打开并进入学习窗。</p><p><b>保存 PDF：</b>在学习窗选择文件。文件保存在本浏览器的本地存储中；同一浏览器再次打开本网页时会尝试恢复。</p><p style="color:#b65343"><b>小提示：</b>浏览器本地存储容量有限。建议使用较小的 PDF；清除浏览器数据、换设备或换浏览器后，文件可能无法保留。课堂展示时请提前打开网页测试。</p><button id="startPlaying">Let's play!</button></div></section>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(() => {
+const canvas = document.getElementById('game'), ctx = canvas.getContext('2d');
+const W=canvas.width,H=canvas.height, groundY=365;
+const levels=[
+ {name:'LEVEL 01 · SUNNY START', sky:'#a9e4f7', ground:'#73c88e', accent:'#ffd76b', platforms:[[0,365,960,61],[180,305,130,18],[390,260,120,18],[590,310,125,18]], doorX:875},
+ {name:'LEVEL 02 · CLOUD BRIDGE', sky:'#b8d9ff', ground:'#79c7a6', accent:'#ffad9a', platforms:[[0,365,150,61],[220,320,120,18],[390,270,115,18],[560,315,115,18],[730,270,230,156]], doorX:875},
+ {name:'LEVEL 03 · STARRY CAMPUS', sky:'#28365e', ground:'#7db8a3', accent:'#ffe08a', platforms:[[0,365,130,61],[195,310,100,18],[345,255,100,18],[505,300,105,18],[670,245,110,18],[820,320,140,106]], doorX:875}
+];
+let levelIndex=0, player={x:55,y:300,w:28,h:38,vx:0,vy:0,onGround:false}, keys={}, camX=0, won=false, doorOpen=false, lastTime=0, animation=0;
+const $=id=>document.getElementById(id);
+const pdfInput=$('pdfInput');
+let savedPdfUrl=null;
+function showToast(s){const t=$('toast');t.textContent=s;t.style.display='block';clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>t.style.display='none',2400)}
+function updateHud(){ $('levelName').textContent=levels[levelIndex].name; $('progressText').textContent=`第 ${levelIndex+1} / ${levels.length} 关`; $('statusText').textContent=won?'QUEST COMPLETE!':doorOpen?'DOOR OPEN!':'KEEP GOING!';}
+function resetLevel(){player={x:55,y:300,w:28,h:38,vx:0,vy:0,onGround:false};camX=0;won=false;doorOpen=false;updateHud()}
+function rect(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(Math.round(x),Math.round(y),w,h)}
+function drawCloud(x,y,s=1){ctx.fillStyle='#ffffffd9';ctx.beginPath();ctx.arc(x,y,17*s,0,Math.PI*2);ctx.arc(x+20*s,y-9*s,22*s,0,Math.PI*2);ctx.arc(x+43*s,y,16*s,0,Math.PI*2);ctx.fill()}
+function draw(){
+ const L=levels[levelIndex];ctx.clearRect(0,0,W,H);rect(0,0,W,H,L.sky);
+ if(levelIndex===2){for(let i=0;i<65;i++){let x=(i*137+30)%W,y=(i*71+19)%250;rect(x,y,2,2,'#fff4b8')}}
+ else {drawCloud(110-camX*.15,72,.8);drawCloud(390-camX*.15,112,.6);drawCloud(710-camX*.15,65,.9)}
+ // distant hills
+ ctx.fillStyle=levelIndex===2?'#354a72':'#92d7c4';ctx.beginPath();ctx.moveTo(0,groundY);for(let x=0;x<=W;x+=80)ctx.lineTo(x,groundY-30-Math.sin((x+camX*.3)/110)*22);ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.fill();
+ // platforms
+ L.platforms.forEach(([x,y,w,h],i)=>{let px=x-camX;if(px+w<0||px>W)return;rect(px,y,w,h,L.ground);rect(px,y,w,7,levelIndex===2?'#a5d9bb':'#c0f1bd');for(let k=0;k<w;k+=30)rect(px+k,y+10,12,3,'#ffffff35')});
+ // tiny flowers / campus decoration
+ if(levelIndex!==2){for(let i=0;i<8;i++){let x=(i*143+40-camX*.65)%W;rect(x,groundY-16,3,12,'#479c70');rect(x-4,groundY-19,5,5,'#ffcf71');rect(x+3,groundY-22,5,5,'#ffcf71')}}
+ // door
+ const dx=L.doorX-camX, dy=groundY-68;
+ rect(dx-4,dy-4,48,72,'#24364b');rect(dx,dy,40,68,doorOpen?'#fff2be':'#d87b62');rect(dx+5,dy+5,30,58,doorOpen?'#fff9df':'#f6ad83');rect(dx+26,dy+35,5,5,'#27364c');
+ if(doorOpen){ctx.fillStyle='#fff4b9aa';ctx.beginPath();ctx.ellipse(dx+20,dy+30,48+Math.sin(animation/120)*4,65,0,0,Math.PI*2);ctx.fill();rect(dx+5,dy+5,30,58,'#fff7d8')}
+ // door sign
+ ctx.fillStyle=levelIndex===2?'#fff':'#24364b';ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.fillText('EXIT',dx+20,dy-11);
+ // player shadow + character
+ ctx.fillStyle='#20304733';ctx.beginPath();ctx.ellipse(player.x-camX+14,player.y+player.h+3,18,5,0,0,Math.PI*2);ctx.fill();
+ const px=player.x-camX, py=player.y;
+ rect(px+4,py+8,20,25,'#f06f5d');rect(px+5,py,18,15,'#ffd5a5');rect(px+3,py-3,22,8,'#27364c');rect(px+8,py+6,3,4,'#24364b');rect(px+19,py+6,3,4,'#24364b');rect(px+4,py+31,7,7,'#24364b');rect(px+18,py+31,7,7,'#24364b');rect(px+(player.vx>=0?23:2),py+17,5,12,'#ffd5a5');
+ // in-game objective banner
+ rect(18,18,225,35,'#ffffffd9');ctx.fillStyle='#203047';ctx.font='bold 13px system-ui';ctx.textAlign='left';ctx.fillText('★ REACH THE DOOR →',30,40);
+}
+function overlaps(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
+function update(dt){
+ if(won)return;const L=levels[levelIndex];const speed=3.5;
+ player.vx=0;if(keys.left||keys.a)player.vx=-speed;if(keys.right||keys.d)player.vx=speed;
+ if((keys.jump||keys.w||keys.up||keys.space)&&player.onGround){player.vy=-10.7;player.onGround=false}
+ player.x+=player.vx*dt;player.x=Math.max(0,Math.min(930,player.x));
+ const oldY=player.y;player.vy+=.48*dt;player.y+=player.vy*dt;player.onGround=false;
+ for(const [x,y,w,h] of L.platforms){const p={x,y,w,h};if(player.vy>=0&&oldY+player.h<=y+4&&player.y+player.h>=y&&player.x+player.w>x&&player.x<x+w){player.y=y-player.h;player.vy=0;player.onGround=true}}
+ if(player.y>H+100){player.x=Math.max(25,player.x-70);player.y=230;player.vy=0}
+ camX=Math.max(0,Math.min(0,player.x-220)); // levels fit in one screen
+ const nearDoor=Math.abs((player.x+player.w/2)-(L.doorX+20))<48&&Math.abs(player.y+player.h-groundY)<95;
+ if(nearDoor&&!doorOpen){doorOpen=true;updateHud();setTimeout(()=>{if(doorOpen)openLearningWindow(true)},500)}
+ animation+=dt;
+}
+function loop(t){const dt=Math.min(2,(t-lastTime)/16.67||1);lastTime=t;update(dt);draw();requestAnimationFrame(loop)}
+function openLearningWindow(auto=false){$('windowOverlay').classList.add('show');$('windowTitle').textContent=auto?`🪟 LEARNING WINDOW · WORLD 0${levelIndex+1}`:'🪟 LEARNING WINDOW · 学习窗';$('windowDescription').textContent=auto?'门已打开！欢迎进入学习窗。你的 PDF 会在这里显示，并在同一浏览器中尝试自动保存。':'欢迎来到学习窗！添加课堂展示 PDF 后，文件会保存在当前浏览器中。';renderSavedPdf()}
+function closeLearningWindow(){ $('windowOverlay').classList.remove('show'); if(doorOpen&&!won){if(levelIndex<levels.length-1){levelIndex++;resetLevel();showToast('✨ 下一关已解锁！')}else{won=true;$('statusText').textContent='QUEST COMPLETE!';showToast('🎉 全部通关！你完成了英语冒险！');updateHud()}}}
+function bytesToBase64(buf){let binary='';const bytes=new Uint8Array(buf);const chunk=0x8000;for(let i=0;i<bytes.length;i+=chunk)binary+=String.fromCharCode(...bytes.subarray(i,Math.min(i+chunk,bytes.length)));return btoa(binary)}
+function base64ToBlob(base64,type){const raw=atob(base64),arr=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)arr[i]=raw.charCodeAt(i);return new Blob([arr],{type})}
+async function loadPdfFile(file){
+ if(!file)return;if(file.type!=='application/pdf'&&!file.name.toLowerCase().endsWith('.pdf')){showToast('请选择 PDF 文件');return}
+ $('pdfStatus').textContent='正在保存 PDF…';const buf=await file.arrayBuffer();const base64=bytesToBase64(buf);
+ try{localStorage.setItem('englishQuestPdf',JSON.stringify({name:file.name,type:'application/pdf',data:base64,savedAt:Date.now()}));$('pdfStatus').textContent=`✓ 已保存：${file.name}（${(file.size/1024/1024).toFixed(2)} MB）`;renderSavedPdf();showToast('PDF 已保存在当前浏览器！')}
+ catch(e){$('pdfStatus').textContent='浏览器存储空间不足，未能自动保存。请尝试较小的 PDF。';showToast('文件太大，浏览器无法保存；可尝试压缩 PDF。');}
+}
+function renderSavedPdf(){
+ const raw=localStorage.getItem('englishQuestPdf'),viewer=$('pdfViewer');if(savedPdfUrl){URL.revokeObjectURL(savedPdfUrl);savedPdfUrl=null}
+ if(!raw){viewer.innerHTML='<div class="empty-pdf">📄<br><strong>这里将展示你的 PDF</strong><br><small>选择上方的 PDF 文件开始</small></div>';$('pdfStatus').textContent='尚未添加 PDF。选择文件即可保存。';return}
+ try{const item=JSON.parse(raw),blob=base64ToBlob(item.data,'application/pdf');savedPdfUrl=URL.createObjectURL(blob);viewer.innerHTML='';const frame=document.createElement('iframe');frame.className='pdf-frame';frame.title='已保存的课堂 PDF';frame.src=savedPdfUrl;viewer.appendChild(frame);$('pdfStatus').textContent=`✓ 已保存：${item.name} · 下次打开本网页会尝试恢复`}
+ catch(e){viewer.innerHTML='<div class="empty-pdf">无法读取已保存的 PDF，请重新添加。</div>'}
+}
+document.addEventListener('keydown',e=>{const tag=document.activeElement?.tagName;if(['INPUT','TEXTAREA'].includes(tag))return;const k=e.key.toLowerCase();if(['arrowleft','arrowright','arrowup',' '].includes(k))e.preventDefault();if(k==='a'||k==='arrowleft')keys.left=true;if(k==='d'||k==='arrowright')keys.right=true;if(k==='w'||k==='arrowup'||k===' ')keys.jump=true;if(k==='escape'){if($('windowOverlay').classList.contains('show'))closeLearningWindow();$('helpOverlay').classList.remove('show')}})
+document.addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(k==='a'||k==='arrowleft')keys.left=false;if(k==='d'||k==='arrowright')keys.right=false;if(k==='w'||k==='arrowup'||k===' ')keys.jump=false})
+document.querySelectorAll('[data-key]').forEach(b=>{const k=b.dataset.key;const down=e=>{e.preventDefault();keys[k]=true};const up=e=>{e.preventDefault();keys[k]=false};b.addEventListener('pointerdown',down);b.addEventListener('pointerup',up);b.addEventListener('pointerleave',up);b.addEventListener('pointercancel',up)})
+$('closeWindow').onclick=closeLearningWindow;$('backToGame').onclick=closeLearningWindow;
+$('pdfInput').addEventListener('change',e=>loadPdfFile(e.target.files[0]));
+$('changePdfBtn').onclick=()=>$('pdfInput').click();
+$('removePdf').onclick=()=>{localStorage.removeItem('englishQuestPdf');renderSavedPdf();showToast('已移除保存的 PDF')};
+$('helpBtn').onclick=()=>$('helpOverlay').classList.add('show');$('closeHelp').onclick=()=>$('helpOverlay').classList.remove('show');$('startPlaying').onclick=()=>$('helpOverlay').classList.remove('show');
+$('resetBtn').onclick=()=>{levelIndex=0;resetLevel();showToast('已回到第一关')};
+updateHud();renderSavedPdf();requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
