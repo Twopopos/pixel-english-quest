@@ -1,0 +1,77 @@
+/* The existing movement controls keep their DOM, labels, order and artwork. */
+#orientationToggle{font:600 12px/1.3 system-ui,-apple-system,sans-serif;white-space:nowrap;border-radius:0;min-height:34px;padding:6px 10px;background:#c7d3a2;color:#18333e;border:2px solid #38545a;box-shadow:inset 1px 1px #edf0c6,0 3px #142b39;touch-action:manipulation}
+#orientationToggle[hidden]{display:none!important}#orientationToggle.orientation-floating{position:fixed;z-index:10025;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right))}
+body.phone-landscape{overflow:hidden;overscroll-behavior:none}
+/* Original three worlds and later exploration: same buttons below the scene. */
+body.phone-landscape.game-active header{height:44px;min-height:44px;padding:5px 8px;display:flex;gap:0;flex-wrap:nowrap}
+body.phone-landscape.game-active header .logo{display:none}
+body.phone-landscape.game-active header .actions{width:100%;display:flex;flex-wrap:nowrap;align-items:center;gap:6px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding-bottom:3px}
+body.phone-landscape.game-active header .actions::-webkit-scrollbar{display:none}
+body.phone-landscape.game-active header .actions button{flex:0 0 auto}
+body.phone-landscape.game-active #fitGameBtn{display:none!important}
+body.phone-landscape.game-active main{position:absolute;inset:44px 0 0;padding:0;max-width:none;width:100%;height:auto}
+body.phone-landscape.game-active .intro,body.phone-landscape.game-active .levels,body.phone-landscape.game-active .foot,body.phone-landscape.game-active .hint{display:none!important}
+body.phone-landscape.game-active .shell{position:relative;inset:auto;display:flex;flex-direction:column;width:100%;height:100%;margin:0;min-height:0;max-width:none;border-width:2px;outline:0;box-shadow:none}
+body.phone-landscape.game-active .hud{flex:0 0 auto;min-height:25px;padding:3px 10px;gap:6px;border-bottom-width:2px;flex-wrap:nowrap}
+body.phone-landscape.game-active .hud strong{font-size:8px;line-height:1.4;white-space:nowrap}
+body.phone-landscape.game-active .hud>small,body.phone-landscape.game-active #trailMechanicHint{display:none!important}
+body.phone-landscape.game-active .hud .trailMeter{margin-left:auto;min-width:90px}
+body.phone-landscape.game-active .hud #trailProgress{width:70px}
+body.phone-landscape.game-active .hud #trailPercent{font-size:8px}
+body.phone-landscape.game-active #game{flex:1 1 0;width:100%;height:0;min-height:0;max-height:none;aspect-ratio:auto;object-fit:contain;background:#193646}
+body.phone-landscape.game-active .mobile{display:flex;flex:0 0 auto;flex-wrap:nowrap;margin:0;padding:6px 14px;min-height:60px}
+body.phone-landscape.game-active #trailSoundPanel{position:absolute;z-index:40;top:30px;right:8px;max-height:calc(100% - 40px);overflow-y:auto}
+body.phone-landscape .overlay{padding:6px}
+body.phone-landscape .window{max-height:calc(100dvh - 12px);overflow:auto}
+body.phone-landscape #magicStationFallback{display:none}
+body.phone-landscape #magicStationOverlay{padding:0}
+body.phone-landscape .journey-book-panel{max-height:calc(100dvh - 12px)}
+/* The station uses the same viewport mode and its existing control row. */
+body.phone-landscape #stationApp{height:100dvh;min-height:0;max-width:none;width:100%;padding:4px 8px;justify-content:flex-start;position:relative}
+body.phone-landscape #stationApp header{flex:0 0 auto;padding:0 0 4px;min-height:38px;flex-wrap:nowrap}
+body.phone-landscape #stationApp header>div:first-child{display:none}
+body.phone-landscape #stationApp .topActions{width:100%;display:flex;flex-wrap:nowrap;gap:7px}
+body.phone-landscape #stationApp .topActions #exitBtn{margin-left:auto}
+body.phone-landscape #stationApp .topActions button{min-height:34px;padding:6px 10px}
+body.phone-landscape #stationApp .mission{flex:0 0 auto;min-height:43px;height:auto;padding:4px 8px;align-items:center}
+body.phone-landscape #stationApp .mission #sceneName{font-size:9px}
+body.phone-landscape #stationApp .mission p{font-size:10px;line-height:1.4;margin-top:3px}
+body.phone-landscape #stationApp #letterState{font-size:8px;max-width:135px}
+body.phone-landscape #stationApp .stage{flex:1 1 0;min-height:0}
+body.phone-landscape #stationApp canvas{height:100%;width:100%;max-height:none;min-height:0;object-fit:contain}
+body.phone-landscape #stationApp .controls{flex:0 0 auto;padding:6px 0;gap:10px}
+body.phone-landscape #stationApp footer{flex:0 0 auto;min-height:20px;font-size:8px}
+body.phone-landscape #stationApp footer span{font-size:7px;line-height:1.3}
+body.phone-landscape #modal{padding:8px}
+body.phone-landscape .paper{max-height:calc(100dvh - 16px);padding:16px 20px}
+body.phone-landscape .paper h2{font-size:17px;margin:8px 0}
+body.phone-landscape .paper p{font-size:13px;line-height:1.65;margin:8px 0 12px}
+@media(prefers-reduced-motion:reduce){#orientationToggle{scroll-behavior:auto}}
+
+/* Float the existing bars over sky/foreground so the scene can use the screen.
+   A measured bottom allowance keeps walking surfaces above the touch buttons. */
+body.phone-landscape.game-active header{position:absolute;z-index:50;top:0;left:0;right:0;background:#554a3feF}
+body.phone-landscape.game-active main{inset:0;height:100%}
+body.phone-landscape.game-active .shell{display:block}
+body.phone-landscape.game-active .hud{position:absolute;z-index:25;top:44px;left:0;right:0;background:#5a4c3feF}
+body.phone-landscape.game-active #game{position:absolute;top:0;left:0;width:100%;height:calc(100% - var(--scene-bottom-reserve,20px));max-height:none}
+body.phone-landscape.game-active .mobile{position:absolute;z-index:30;bottom:0;left:0;right:0;background:#655547ed}
+body.phone-landscape.game-active #trailSoundPanel{top:74px}
+body.phone-landscape #stationApp header{position:absolute;z-index:6;top:4px;left:8px;right:8px;background:#111f2bee}
+body.phone-landscape #stationApp .mission{position:absolute;z-index:5;top:42px;left:8px;right:8px;min-height:26px;height:26px;padding:3px 8px;background:#1c303deE}
+body.phone-landscape #stationApp .mission #sceneName{display:none}
+body.phone-landscape #stationApp .mission p{margin:0;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.phone-landscape #stationApp .mission>div{min-width:0}
+body.phone-landscape #stationApp .stage{position:absolute;inset:0;display:block;border:0}
+body.phone-landscape #stationApp canvas{position:absolute;top:0;left:0;height:calc(100% - var(--scene-bottom-reserve,30px))}
+body.phone-landscape #stationApp .controls{position:absolute;z-index:5;left:8px;right:8px;bottom:var(--display-footer-height,26px);background:#111f2bdd}
+body.phone-landscape #stationApp footer{position:absolute;z-index:5;bottom:4px;left:8px;right:8px;background:#111f2bee}
+
+/* Leave the original word-discovery banner clear in the middle of the sky. */
+body.phone-landscape.game-active .hud{height:30px;min-height:0;padding:0;background:transparent!important;border:0;display:block;pointer-events:none}
+body.phone-landscape.game-active .hud #levelName,body.phone-landscape.game-active .hud #status{position:absolute;top:4px;padding:4px 5px;max-width:calc(16% - 6px);font-size:7.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:#51483deE;border:1px solid #98866a}
+body.phone-landscape.game-active .hud #levelName{left:4px}
+body.phone-landscape.game-active .hud #status{right:4px}
+body.phone-landscape.game-active .hud .advanceControls{position:absolute;top:2px;left:50%;transform:translateX(-50%);pointer-events:auto}
+body.phone-landscape.game-active .hud .trailMeter{position:absolute;top:4px;left:50%;transform:translateX(-50%);width:110px;margin:0;padding:3px 5px;background:#51483deE}
+body.phone-landscape.game-active.trail-active .hud #levelName,body.phone-landscape.game-active.trail-active .hud #status{max-width:calc(32% - 10px)}
