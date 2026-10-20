@@ -61,6 +61,14 @@ export class StationWorld{
   ...(s.complete?[{id:'train',x:985,y:390,label:'TAKE ANOTHER LITTLE JOURNEY'}]:[])];
   if(s.scene==='canal')return [{id:'return',x:80,y:390,label:'RETURN TO THE STATION'},{id:'seed',x:375,y:390,label:s.vine?'CLIMB THE VINE · HOLD ↑':'A SEED BESIDE THE VIADUCT'},{id:'crate',x:445,y:390,label:s.raft?'THE RAFT WILL COME BACK':'A WOODEN CRATE BY THE WATER'},{id:'observatory',x:1530,y:390,label:'ENTER THE OBSERVATORY'}];
   return [{id:'return',x:75,y:400,label:'BACK TO THE CANAL'},{id:'mirror',x:510,y:400,label:s.lit?'THE LIGHT HAS FOUND ITS WAY':s.words.includes('Reflect')?'TURN THE MIRROR':'A DUSTY MIRROR'},{id:'recipient',x:1085,y:400,label:s.delivered?'READ THE REPLY':'DELIVER THE LETTER'},{id:'train',x:1190,y:400,label:'TAKE THE NIGHT TRAIN HOME'}];}
+ guideTarget(){const s=this.state,p=this.player;let id,label;
+  if(s.scene==='station'){if(s.complete)return null;id=!s.accepted?'master':!s.primer?'primer':s.delivered?'master':'wall';label={master:s.delivered?'RETURN THE REPLY':'STATIONMASTER',primer:'WORD CARDS',wall:'9¾ ENTRANCE'}[id];}
+  else if(s.scene==='observatory'){id=!s.lit?'mirror':!s.delivered?'recipient':'train';label={mirror:s.words.includes('Reflect')?'TURN THE MIRROR':'USE REFLECT',recipient:'FIND ROWAN',train:'NIGHT TRAIN HOME'}[id];}
+  else if(!s.vine&&!s.raft){id=p.x<405?'seed':'crate';label=id==='seed'?'GROW A HIGH PATH':'FLOAT A WATER ROUTE';}
+  else if(p.x<470&&p.support!=='high'){id=s.vine?'seed':'crate';label=s.vine?'HOLD ↑ TO CLIMB':'JUMP ON THE RAFT';}
+  else{id='observatory';label='TO THE OBSERVATORY';}
+  const target=this.objects().find(o=>o.id===id);return target?{...target,label}:null;
+ }
  near(){const p=this.player;return this.objects().filter(o=>Math.abs(o.x-p.x-12)<64&&Math.abs(o.y-p.y-p.h)<82).sort((a,b)=>Math.abs(a.x-p.x-12)-Math.abs(b.x-p.x-12))[0]||null;}
  interact(id=this.near()?.id){if(!id||!this.objects().some(o=>o.id===id))return null;const s=this.state;
   if(id==='master'){if(s.complete)return {type:'dialog',title:'THE STATIONMASTER',text:'A letter, a reply, and a light in the window. You have made this little station feel like somewhere again.',action:'close',label:'STAY A LITTLE'};if(s.delivered)return {type:'dialog',title:'THE REPLY',text:'“The lantern is lit. I will be on the next train home.”\nThe stationmaster folds the letter carefully. “Thank you for going all that way.”',action:'complete',label:'LIGHT UP THE STATION'};if(s.accepted)return {type:'dialog',title:'A LETTER BETWEEN WORLDS',text:'To Rowan, at the Lantern Observatory, beyond the Owl Post Canal. A floating crate or a growing vine may help you get there.',action:'close',label:'ON MY WAY'};return {type:'dialog',title:'THE LAST LETTER',text:'“This owl brought back the same envelope three nights in a row. Would you take it to Rowan at the old observatory? Some letters need footsteps, as well as wings.”',action:'accept',label:'I WILL TAKE IT'};}

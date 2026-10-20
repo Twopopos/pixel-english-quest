@@ -1,4 +1,4 @@
-import {StationWorld,SAVE_KEY,WORDS} from './station-core.js';
+import {StationWorld,SAVE_KEY,WORDS} from './station-core.js?v=11.2';
 const $=id=>document.getElementById(id),canvas=$('stationCanvas'),g=canvas.getContext('2d');g.imageSmoothingEnabled=false;
 let input={},busy=false,dialog=false,last=0,noticeTimer=0,savedAt=0,nearId='',returnFocus=null,context=null,music=null,muted=false;
 try{muted=localStorage.getItem('pixelEnglishSoundMuted')==='true';}catch{}
@@ -94,7 +94,13 @@ function observatoryScene(cam,t){rect(0,0,960,480,'#1b2d40');g.save();g.translat
 }
 function npc(x,y,kind,t){const rowan=kind==='rowan';rect(x-10,y-29,20,21,rowan?'#7e777e':'#646f75');rect(x-7,y-44,15,16,'#d7ad7c');rect(x-10,y-47,20,6,rowan?'#c0b6a0':'#395b59');rect(x-7,y-52,15,6,rowan?'#b6aa94':'#355151');rect(x-3,y-36,3,3,C.ink);rect(x-6,y-8,6,8,'#263c4d');rect(x+3,y-8,6,8,'#263c4d');rect(x-10,y-28,20,5,rowan?'#9fb38a':'#d3b279');}
 function hero(t){const p=world.player,x=Math.round(p.x-world.camera),y=Math.round(p.y);const move=Math.abs(p.vx)>.1&&p.on,walk=move?Math.sin(t*.25)*4:0;g.save();g.translate(x+12,y);g.scale(p.face,1);rect(-12,10,24,22,'#4d4938');rect(-14,15,6,16,'#8a7046');rect(-11,18,4,6,'#d3a758');rect(-8,13,17,17,'#c97e3e');rect(-4,16,5,6,'#f0b65d');rect(6,16,5,13+walk,'#e8ac6f');rect(-10,16,4,13-walk,'#e8ac6f');rect(-7,30,7,7+walk,'#31556d');rect(2,30,7,7-walk,'#31556d');rect(-8,36+walk,9,3,'#3d3938');rect(1,36-walk,10,3,'#3d3938');rect(-7,0,17,14,'#e4b27d');rect(-9,-2,16,8,'#4e3931');rect(-9,-8,20,8,'#388281');rect(-12,-4,27,4,'#4b9a94');rect(6,4,3,4,'#243848');rect(7,10,6,3,'#d99967');rect(-9,12,19,4,'#c5a059');rect(-9,16,5,7,'#914b43');g.restore();}
-function draw(){const t=world.clock,cam=world.camera;g.clearRect(0,0,960,480);if(world.state.scene==='station')stationScene(cam,t);else if(world.state.scene==='canal')canalScene(cam,t);else observatoryScene(cam,t);hero(t);const near=world.near();if(near&&!dialog&&!busy){const x=near.x-cam;rect(x-12,near.y-83,24,21,'#203543');text('E',x,near.y-68,12,C.gold,'center');}if(world.state.scene==='canal'&&world.state.vine){for(let i=0;i<9;i++){const xx=(i*211+t*.31)%960,yy=200+(i*37)%180;rect(xx,yy,2,2,'#f7da9c');}}}
+function drawGuide(t){if(dialog||busy)return;const target=world.guideTarget();if(!target)return;const raw=target.x-world.camera,off=raw<34||raw>926;
+ const label=off?(raw<34?'← ':'')+target.label+(raw>926?' →':''):target.label;
+ g.font='14px StationBody,monospace';const w=Math.ceil(g.measureText(label).width)+24,x=Math.max(w/2+12,Math.min(948-w/2,raw)),y=off?104:target.y-132;
+ rect(x-w/2-2,y-18,w+4,30,C.ink);rect(x-w/2,y-16,w,26,C.gold);text(label,x,y+2,14,C.ink,'center');
+ if(!off){const by=y+17+Math.round(Math.sin(t*.08)*3);rect(raw-7,by,14,4,C.gold);rect(raw-5,by+4,10,4,C.gold);rect(raw-2,by+8,4,4,C.gold);}
+}
+function draw(){const t=world.clock,cam=world.camera;g.clearRect(0,0,960,480);if(world.state.scene==='station')stationScene(cam,t);else if(world.state.scene==='canal')canalScene(cam,t);else observatoryScene(cam,t);drawGuide(t);hero(t);const near=world.near();if(near&&!dialog&&!busy){const x=near.x-cam;rect(x-12,near.y-83,24,21,'#203543');text('E',x,near.y-68,12,C.gold,'center');}if(world.state.scene==='canal'&&world.state.vine){for(let i=0;i<9;i++){const xx=(i*211+t*.31)%960,yy=200+(i*37)%180;rect(xx,yy,2,2,'#f7da9c');}}}
 function frame(now){const dt=last?Math.min(2,(now-last)/16.67):1;last=now;if(!busy&&!dialog&&!document.hidden)world.step(dt,input);draw();if(world.near()?.id!==nearId||busy||dialog)syncHUD();if(now-savedAt>5000&&!busy&&!dialog){world.save();savedAt=now;}requestAnimationFrame(frame);}
 document.fonts.ready.then(()=>draw());requestAnimationFrame(frame);
 if(!world.state.accepted)notice('A station between journeys. Walk to the ticket window and press E.');
