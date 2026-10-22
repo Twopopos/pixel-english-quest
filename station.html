@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>The Letter Between Worlds · Platform 9¾</title>
-<link rel="stylesheet" href="./station.css"></head><body>
+<link rel="stylesheet" href="./station.css?v=12.1"></head><body>
 <main id="stationApp">
  <header><div><span class="eyebrow">AN OPTIONAL LITTLE ADVENTURE</span><h1>THE LETTER BETWEEN WORLDS</h1></div><div class="topActions"><button id="journalBtn">SATCHEL</button><button id="audioBtn" aria-pressed="false">SOUND ON</button><button id="exitBtn">RETURN ↗</button></div></header>
  <section class="mission"><div><span id="sceneName">PLATFORM 9¾</span><p id="objective" aria-live="polite"></p></div><span id="letterState">ONE LETTER · A LONG WAY HOME</span></section>
- <div class="stage" id="stage"><canvas id="stationCanvas" width="960" height="480" tabindex="0" aria-label="魔法车站支线。A D 左右移动，W 跳跃或攀爬，S 下穿，E 交互。"></canvas><div id="toast" role="status" hidden></div><div id="curtain" aria-hidden="true"><div class="steam"></div><div class="ticket"><small>OWL POST · NIGHT SERVICE</small><strong id="travelLabel">PLATFORM 9¾</strong><span>Every word opens a little more of the world.</span></div></div></div>
+ <div class="stage" id="stage"><canvas id="stationCanvas" width="960" height="480" tabindex="0" aria-label="魔法车站支线。A D 左右移动，W 跳跃或攀爬，S 下穿，E 交互。"></canvas><section id="trainRest" hidden><p>Take your time.<br>There’s more to discover.</p><button type="button" id="trainRestContinue">CONTINUE</button></section><div id="toast" role="status" hidden></div><div id="curtain" aria-hidden="true"><div class="steam"></div><div class="ticket"><small>OWL POST · NIGHT SERVICE</small><strong id="travelLabel">PLATFORM 9¾</strong><span>Every word opens a little more of the world.</span></div></div></div>
  <section class="controls" aria-label="游戏触控操作"><div class="move"><button data-key="left" aria-label="向左移动">◀</button><button data-key="right" aria-label="向右移动">▶</button></div><div class="interactSlot"><button id="interactBtn" hidden>INTERACT · E</button></div><button data-key="down" aria-label="下穿平台">DROP ↓</button><button data-key="up" aria-label="跳跃或攀爬">JUMP ↑</button></section>
  <footer><span>A D / ← → MOVE · W / ↑ / SPACE JUMP & CLIMB · S / SHIFT / ↓ DROP · E INTERACT · J SATCHEL<br>Music by YannZ · <a href="https://yannz41.itch.io" target="_blank" rel="noopener noreferrer">yannz41.itch.io</a></span><button id="recallBtn">BACK TO SAFE GROUND</button></footer>
 </main>
 <div id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle"><section class="paper"><span class="eyebrow">A LETTER BETWEEN WORLDS</span><h2 id="modalTitle"></h2><p id="modalText"></p><div id="modalActions"></div></section></div>
-<script type="module" src="./station.js?v=11.3"></script><script type="module" src="./display-client.js"></script></body></html>
+<script src="./quest-art.js?v=12.1"></script><script type="module" src="./station.js?v=12.1"></script><script type="module" src="./display-client.js"></script></body></html>

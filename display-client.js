@@ -1,9 +1,9 @@
-import {bottomReserve} from './display-layout.js';
+import {bottomReserve} from './display-layout.js?v=12.1';
 (()=>{
 const embedded=window.top!==window;let displayHost=window.parent;try{for(let ancestor=window.parent;ancestor!==window;ancestor=ancestor.parent){if(ancestor.document.getElementById('displayRoot')){displayHost=ancestor;break}if(ancestor===ancestor.parent)break}}catch{}
 const station=!!document.getElementById('stationApp');let mode='portrait',mobile=false,lastSize='';
 const button=document.createElement('button');button.type='button';button.id='orientationToggle';button.hidden=true;
-const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='./display-client.css';document.head.append(sheet);
+const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='./display-client.css?v=12.1';document.head.append(sheet);
 const actions=document.querySelector(station?'.topActions':'header .actions');if(!actions)return;actions.prepend(button);
 let fitRequest=0;
 function fitScene(){fitRequest=0;if(!mobile||mode!=='landscape')return;const controls=document.querySelector(station?'.controls':'.mobile'),footer=station?document.querySelector('#stationApp footer'):null,footerHeight=footer?footer.getBoundingClientRect().height+4:0;document.body.style.setProperty('--display-footer-height',footerHeight+'px');const strip=(controls?.getBoundingClientRect().height||60)+footerHeight;document.body.style.setProperty('--scene-bottom-reserve',bottomReserve(document.documentElement.clientHeight,strip,station?405/480:365/426)+'px');}

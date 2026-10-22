@@ -1,0 +1,13 @@
+/* Additional chrome only. Original controls and collision geometry are retained. */
+.build-stamp{position:fixed;left:6px;bottom:3px;z-index:10001;font:8px JourneyBodyPixel,monospace;color:#e8d5a4;background:#19313bd9;padding:3px 5px;pointer-events:none}
+#gameAudioSettingsBtn,#trailAudioSettingsBtn{display:none!important}
+header .actions{display:flex;flex-wrap:nowrap;align-items:center;gap:7px}
+header .actions button{white-space:nowrap}
+#stationBoardPrompt,#chapterMenu{position:fixed;inset:0;z-index:10040;display:grid;place-items:center;background:#112c3ad9;padding:18px}
+#stationBoardPrompt[hidden],#chapterMenu[hidden],#magicStationOverlay[hidden]{display:none!important}
+.station-board-paper{box-sizing:border-box;width:min(530px,100%);max-height:calc(100dvh - 40px);overflow:auto;padding:25px;background:#f1dfb5;color:#233d45;border:4px solid #a57e4e;box-shadow:0 0 0 3px #20353d,inset 0 0 0 2px #fff0c9;font-family:JourneyBodyPixel,monospace}
+.station-board-paper h2{font:20px/1.5 QuestPixel,monospace;margin:0 0 14px}.station-board-paper p{font:15px/1.8 JourneyBodyPixel,monospace}.station-board-paper .choices{display:flex;gap:12px;flex-wrap:wrap}.station-board-paper button{min-height:44px;font:12px/1.5 JourneyBodyPixel,monospace;padding:10px 13px}.station-board-paper small{color:#946b40}
+#magicStationOverlay{position:fixed;inset:0;z-index:10050;background:#142b37;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+#magicStationOverlay iframe{border:0;width:100%;flex:1;min-height:0}#magicStationFallback{display:flex;justify-content:space-between;align-items:center;padding:5px 10px;font:10px/1.4 JourneyBodyPixel,monospace;color:#eddaac;background:#172d38}#magicStationFallback button{font-size:10px;padding:5px 8px}
+#chaptersBtn.chapter-home{position:absolute;z-index:3;right:max(16px,env(safe-area-inset-right));bottom:calc(78px + env(safe-area-inset-bottom));font:12px JourneyBodyPixel,monospace;padding:12px 16px;min-height:44px}
+@media(max-width:650px){header{padding:7px 8px!important;gap:0!important}header .logo{display:none!important}header .actions{width:100%;justify-content:space-between;gap:4px!important;flex-wrap:nowrap!important}header .actions button{min-width:0;font:9px/1.4 JourneyBodyPixel,monospace!important;padding:7px 6px!important;min-height:35px!important}header #fitGameBtn{display:none!important}.station-board-paper{padding:20px}.station-board-paper h2{font-size:17px}.station-board-paper p{font-size:13px}.station-board-paper .choices{gap:9px}.station-board-paper button{font-size:10px}#magicStationFallback span{font-size:8px}}

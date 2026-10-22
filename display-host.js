@@ -1,6 +1,6 @@
 /* Keep the game document untransformed internally: its camera, PDF and input
    coordinates remain correct even when the outer viewport rotates on Safari. */
-import {layoutFor} from './display-layout.js';
+import {layoutFor} from './display-layout.js?v=12.1';
 const root=document.getElementById('displayRoot'),stage=document.getElementById('displayStage'),frame=document.getElementById('gameFrame'),safe=document.getElementById('displaySafeArea');
 if(location.hash==='#station')frame.src='./station.html';
 let mode='portrait',mobile=false,ownedFullscreen=false,changing=false,requestId=0;

@@ -1,23 +1,18 @@
-Pixel English Quest v11.3 — 自动验证流程与 PDF 返回修复基线
-2026-10-21
+Pixel English Quest V12.1 · LIVING STATION
 
-本次范围
-- 建立必须执行的自动检查、真实浏览器回归、修复后重测及打包校验流程。
-- 修复关闭 PDF 时直接露出背景、320ms 退场过快与双角色/背景叠绘。
-- PDF 关闭采用约 2 秒的统一时间线：窗口淡出、角色退回、遮罩交接并恢复场景。
-- 返回期间禁止重复触发关闭/下一关；结束后恢复操作，保留每关 PDF、门与通关状态。
-- 修复主线和支线中 Enter/Space 操作界面按钮时被全局场景交互拦截的问题。
-- 本包仍是现有美术版本。已批准的精细像素美术与实体车站改造保留在 PROJECT-STATE.md，尚未整合，不能把本包当成那次完整设计更新。
+这是完整网站包。解压后上传，不要把 ZIP 本身作为网站上传。
 
-部署
-解压后，index.html 与全部同级 HTML、JS、CSS、TTF、WebP、MP3 上传到原仓库根目录，覆盖同名文件。不要只上传 index.html，不要上传 ZIP 本身，也不要将网站套进额外子文件夹。
-本次为完整资源包，不依赖旧仓库中的图像/音乐文件。原有用户 PDF 文件可继续保留；每关 PDF 的保存位置是当前浏览器，不包含在此压缩包中。
-qa/、tests/ 和 Markdown 文档为开发验证资料，可不上传；不属于运行依赖。
-通过 GitHub Pages 或 HTTP 服务打开，不要双击本地文件。网页 MIME 应是 text/html。
+1. 打开 Twopopos/pixel-english-quest，进入存放现有 index.html 的同一目录。
+2. 将解压得到的所有同级文件一起上传，覆盖同名旧文件。首页必须叫 index.html。
+3. 不要只上传 index.html 或 quest-game.html；新的 quest-art.js、quest-v12.css、两张 v12 背景图以及 station 相关文件都需要上传。
+4. 每个文件均小于 GitHub 网页上传的 25 MB 限制。ZIP 总大小不等于单文件大小；无须使用 Git LFS。
+5. 提交后等待 GitHub Pages 部署完成，再刷新网页。页面左下角应显示 V12.1 · LIVING STATION。
 
-以后每次修改
-阅读 AGENTS.md 与 QA-PROTOCOL.md。执行 python3 qa/run.py；随后真实浏览器测试并记录证据；修复与回归；最后执行 python3 qa/run.py --release 并校验压缩包。
-Python 3 + Node.js 即可运行本地检查。真实浏览器步骤由编码代理调用可用浏览器工具执行，不能被本地模拟冒充。
+入口：index.html。
+车站位置：前三关通关后点击 NEW GAME，向右走到出生区的红色列车旁。靠近后按 E / INTERACT，自行选择 BOARD THE TRAIN 或 KEEP EXPLORING。
+完成第三关后，CHAPTERS 会长期解锁，刷新后可选课堂关、NEW GAME 或有存档时的 CONTINUE TRAIL。
 
-测试结果、辅助工具范围和环境限制见 QA-REPORT.md；sha256-manifest.json 对应交付的最终网站文件。
-未经你的明确指令，没有修改 GitHub 或发布线上网站。
+前三关平台、跳跃参数、门位置和每关独立的 PDF 保存方式保留。旅行手册与 PDF 储存在当前浏览器，不会跨设备同步；清除网站数据会删除本地保存。
+
+TEST-REPORT.txt 是测试范围与限制，ART-SOURCES.txt 是素材说明。sha256-manifest.json 用于完整性校验。这些文字文件可以随其他文件一起上传。
+没有修改或发布你的 GitHub 仓库。

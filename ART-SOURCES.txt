@@ -1,0 +1,8 @@
+V12.1 artwork and audio
+
+Existing approved home, completion and horizon images are retained.
+quest-landscapes-v12.webp is the recovered six-panel atlas adapted from approved pixel previews: morning village, floating ruins, starry campus, red-brick platform, sunset windmill valley and night observatory.
+quest-interiors-v12.webp is the recovered pair of warm return-carriage and observatory-cottage interiors.
+quest-art.js draws the shared teal-cap/orange-jacket/backpack hero, articulated action poses, collision-aligned tiles, door/window details, station canopy, scarlet train with steam, clock and windmill as code-native pixel art. The separate train image from the interrupted build could not be recovered; this release uses the detailed code-drawn train. Previews are adapted into gameplay scenery rather than pasted as complete UI screenshots.
+
+The established Asami’s Journey Loops A/B/C by YannZ are preserved byte-for-byte, including their embedded licence metadata. Music credits, source links and full licence are available in the AUDIO panel. The optional REGIONAL music mode is retained. This project does not include Harry Potter, Zelda or Minecraft soundtrack recordings. Harry Potter-inspired platform details accompany an original letter-delivery story.
