@@ -1,4 +1,4 @@
-import {StationWorld,SAVE_KEY,WORDS} from './station-core.js?v=12.1';
+import {StationWorld,SAVE_KEY,WORDS} from './station-core.js?v=14.0';
 const $=id=>document.getElementById(id),canvas=$('stationCanvas'),g=canvas.getContext('2d');g.imageSmoothingEnabled=false;
 let input={},busy=false,dialog=false,last=0,noticeTimer=0,savedAt=0,nearId='',returnFocus=null,context=null,music=null,muted=false;
 try{muted=localStorage.getItem('pixelEnglishSoundMuted')==='true';}catch{}

@@ -11,3 +11,28 @@ header .actions button{white-space:nowrap}
 #magicStationOverlay iframe{border:0;width:100%;flex:1;min-height:0}#magicStationFallback{display:flex;justify-content:space-between;align-items:center;padding:5px 10px;font:10px/1.4 JourneyBodyPixel,monospace;color:#eddaac;background:#172d38}#magicStationFallback button{font-size:10px;padding:5px 8px}
 #chaptersBtn.chapter-home{position:absolute;z-index:3;right:max(16px,env(safe-area-inset-right));bottom:calc(78px + env(safe-area-inset-bottom));font:12px JourneyBodyPixel,monospace;padding:12px 16px;min-height:44px}
 @media(max-width:650px){header{padding:7px 8px!important;gap:0!important}header .logo{display:none!important}header .actions{width:100%;justify-content:space-between;gap:4px!important;flex-wrap:nowrap!important}header .actions button{min-width:0;font:9px/1.4 JourneyBodyPixel,monospace!important;padding:7px 6px!important;min-height:35px!important}header #fitGameBtn{display:none!important}.station-board-paper{padding:20px}.station-board-paper h2{font-size:17px}.station-board-paper p{font-size:13px}.station-board-paper .choices{gap:9px}.station-board-paper button{font-size:10px}#magicStationFallback span{font-size:8px}}
+
+/* V13: desktop uses the window; world physics stays in logical pixels. */
+.levels{grid-template-columns:repeat(2,minmax(0,1fr))}
+body.desktop-immersive{overflow:hidden;margin:0;height:100dvh}
+body.desktop-immersive header{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;min-height:52px;padding:6px 12px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:12px}
+body.desktop-immersive header .logo{font-size:12px;line-height:1.4;white-space:nowrap}
+body.desktop-immersive header .logo small,body.desktop-immersive .brandMark{display:none}
+body.desktop-immersive header .actions{flex-wrap:nowrap;gap:7px}
+body.desktop-immersive header button{font-size:11px;min-height:36px;padding:7px 10px}
+body.desktop-immersive main{position:fixed;inset:52px 0 0;max-width:none;width:100%;height:auto;padding:0;margin:0}
+body.desktop-immersive .intro,body.desktop-immersive .levels,body.desktop-immersive .foot{display:none}
+body.desktop-immersive .shell{position:relative;display:flex;flex-direction:column;height:100%;width:100%;max-width:none;margin:0;padding:0;border:0;outline:0;box-shadow:none;min-height:0}
+body.desktop-immersive .hud{flex:0 0 auto;min-height:35px;padding:6px 12px;border-width:0 0 2px;gap:10px;box-sizing:border-box;align-items:center}
+body.desktop-immersive .hud strong{font-size:11px;line-height:1.4}
+body.desktop-immersive .hud>small{display:none}
+body.desktop-immersive .hud #trailMechanicHint{font-size:10px;margin:0}
+body.desktop-immersive #game{display:block;flex:1 1 0;width:100%;height:0;min-height:0;max-height:none;aspect-ratio:auto;object-fit:fill;image-rendering:pixelated}
+body.desktop-immersive .mobile{display:none}
+body.desktop-immersive #trailSoundPanel{position:absolute;z-index:45;right:12px;top:42px;max-height:calc(100% - 54px);overflow:auto}
+body.desktop-immersive .overlay .window{width:min(1240px,96vw);max-width:none;max-height:94dvh}
+body.desktop-immersive #pdfViewer{max-height:calc(100dvh - 230px)}
+@media(min-width:651px) and (max-width:1000px){body.desktop-immersive header .logo{display:none}body.desktop-immersive header .actions{width:100%;justify-content:space-between}body.desktop-immersive header button{font-size:10px}}
+
+/* Classroom lesson helpers */
+.lesson-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0}.lesson-tools button,.lesson-tools a{font:13px sans-serif;padding:7px 10px}.lesson-tools a{color:#20485a}.lesson-tools button{min-height:32px}
